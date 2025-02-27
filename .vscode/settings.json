@@ -1,0 +1,24 @@
+{
+    "files.exclude": {
+        "**/build": true,
+        "**/coverage": true,
+        "**/dist": false
+    },
+    "eslint.format.enable": true,
+    "eslint.lintTask.enable": true,
+    "eslint.quiet": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.sortImports": "always",
+        "source.fixAll.eslint": "explicit"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
