@@ -1,5 +1,6 @@
 import { Command, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Product } from 'src/Models/Product';
+import { v4 as guid } from 'uuid';
 
 export interface CreateProductResponse {
   id: string;
@@ -22,7 +23,7 @@ export class CreateProductHandler
   implements ICommandHandler<CreateProductCommand>
 {
   execute(command: CreateProductCommand): Promise<CreateProductResponse> {
-    const product: Product = { ...command, id: '1' };
+    const product: Product = { ...command, id: guid() };
 
     return Promise.resolve({ id: product.id });
   }
