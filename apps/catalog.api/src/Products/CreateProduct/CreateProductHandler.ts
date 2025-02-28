@@ -1,6 +1,7 @@
 import { Command, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/Models/Product';
-import { v4 as guid } from 'uuid';
+import { Repository } from 'typeorm';
 
 export interface CreateProductResponse {
   id: string;
@@ -19,12 +20,24 @@ export class CreateProductCommand extends Command<CreateProductResponse> {
 }
 
 @CommandHandler(CreateProductCommand)
-export class CreateProductHandler
+export class CreateProductCommandHandler
   implements ICommandHandler<CreateProductCommand>
 {
-  execute(command: CreateProductCommand): Promise<CreateProductResponse> {
-    const product: Product = { ...command, id: guid() };
+  constructor(
+    @InjectRepository(Product) private productRepository: Repository<Product>,
+  ) {}
 
-    return Promise.resolve({ id: product.id });
+  async execute(command: CreateProductCommand): Promise<CreateProductResponse> {
+    const product = this.productRepository.create({
+      name: command.name,
+      price: command.price,
+      description: command.description,
+      category: command.category,
+      imageFile: command.imageFile,
+    });
+
+    await this.productRepository.save(product);
+
+    return { id: product.id };
   }
 }
